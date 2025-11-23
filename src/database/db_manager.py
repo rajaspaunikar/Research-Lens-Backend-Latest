@@ -270,36 +270,3 @@ class DatabaseManager:
             return [dict(row._mapping) for row in res]
         finally:
             s.close()
-        w_data = []
-        now = datetime.now()
-        for i in range(7):
-            dt = now - timedelta(days=6-i)
-            w_data.append({
-                "date": dt.strftime("%m/%d"),
-                "papers_indexed": random.randint(20, 80),    
-                "downloads": random.randint(5, 20), 
-                "ai_insights": random.randint(15, 60)    
-            })
-            
-        m_data = []
-        ms = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        idx = now.month
-        rot_ms = ms[idx:] + ms[:idx]
-        
-        for m in rot_ms:
-            m_data.append({
-                "date": m,
-                "papers_indexed": random.randint(300, 800),
-                "downloads": random.randint(50, 150),
-                "ai_insights": random.randint(250, 700)
-            })
-
-        y_data = [
-            {"date": "2021", "papers_indexed": 1500, "downloads": 300, "ai_insights": 1200},
-            {"date": "2022", "papers_indexed": 2300, "downloads": 450, "ai_insights": 2100},
-            {"date": "2023", "papers_indexed": 3100, "downloads": 600, "ai_insights": 2900},
-            {"date": "2024", "papers_indexed": 4500, "downloads": 900, "ai_insights": 4200},
-            {"date": "2025", "papers_indexed": 1200, "downloads": 250, "ai_insights": 1100} 
-        ]
-
-        return {"week": w_data, "month": m_data, "year": y_data}
