@@ -1,32 +1,139 @@
-Research Lens automates scraping and analyzing recent research papers from sources like arXiv. Extract metadata, track trending topics, visualize keyword trends, download PDFs, and explore via an interactive dashboard with filters and alerts—helping researchers stay updated and discover key insights effortlessly.
-ADDING FEAT HERE BELOW
+# Research Lens — Backend API
 
-Scrape recent research papers (title, abstract, keywords) from arXiv and similiar sources using Python (requests + BeautifulSoup).
-Parse metadat and extract keywords/ topics using regex or lex/yacc.
-Analyze top trending research topics and keyword frequency over time.
-Visualize trends with matplotlib or gnuplot.
-Auto-generate PDF reports (LaTex) with charts and insights.
-Store top research papers in a database for efficient querying.
-Filters to search papers by category, date, author, keywords, etc.
-Additional Features.
-Paper Downloading.
-Auto-download PDFs of research papers to a local folder or cloud storage for offline reading.
-Track downloaded papers with metadata.
-Interactive Dashboard.
-Web-based dashboard (Flask/Django + React or Dash) to explore trends interactively.
-Filter papers by topic, time range, authors, citation count, etc..
-Live search with keyword suggestions and autocomplete.
-Citation & impact metrics.
-Integrate citation counts or impact factors via APIs (e.g Semantics scholar).
-Highlight highly cited or Influential papers in trend reports.
-Paper summarization.
-Use NLP (eg Hugging face transformers) to generate concise summaries of abstracts or full texts for quick reading.
-Alert System. 
-Email or slack notifications for new papers matching user-defined filters or trending topics.
-Collaboration & Annotation.
-Allow users to annotate papers or add personal notes in the dashboard.
-Share curated lists or insights with collaborators.
-Multi-source aggregation.
-Scrape multiple repositories (PubMed, IEEE Xplore, springer, etc.) for a broader dataset.
-Mobile-Friendly interface or App.
-Access research trends and papers on mobile devices for convinience.
+The backend engine powering **Research Lens**, a platform built to scrape, analyze, and index research papers from sources like **arXiv**. Using NLP and automation, the system extracts metadata, tracks trends, and exposes insights through a high-performance REST API.
+
+This backend automates research discovery by analyzing temporal trends, extracting keywords, downloading PDFs, and serving structured data to the frontend.
+
+---
+
+## Project Structure
+
+```
+├── README.md
+├── requirements.txt
+└── src
+    ├── analysis                      # NLP logic (keyword extraction, trends, summarization)
+    │   ├── metadata_extractor.py
+    │   └── trend_analyzer.py
+    ├── api.py                        # FastAPI routes and endpoint definitions
+    ├── database
+    │   └── db_manager.py             # PostgreSQL + SQLAlchemy ORM
+    ├── main.py                       # CLI entry point for scraping/initialization
+    ├── scraper                       # arXiv scraping engine (PDF downloads + metadata)
+    │   ├── old
+    │   │   └── scraper_version0.1.ipynb
+    │   ├── scraper.py
+    │   └── test_scraper.py
+    └── tasks                         # Background automation and scheduling
+        └── auto_task.py
+```
+
+---
+
+## Tech Stack
+
+- **Framework:** Python, FastAPI  
+- **Database:** PostgreSQL + SQLAlchemy ORM  
+- **Scraping:** BeautifulSoup4, Requests  
+- **NLP:** Spacy, Regex, Hugging Face Transformers  
+- **Server Runtime:** Uvicorn  
+
+---
+
+## Key Features
+
+-  **Automated Scraping**  
+  Fetches papers (title, abstract, metadata, PDF) from arXiv and other sources.
+
+-  **Metadata Extraction**  
+  Title parsing, keyword extraction, topic mapping.
+
+-  **Trend Analysis**  
+  Calculates keyword popularity and growth velocity over time.
+
+-  **Paper Summarization**  
+  NLP-based summarization using transformer models.
+
+-  **PDF Management**  
+  Automatic downloads with local caching and DB tracking.
+
+-  **Report Generation**  
+  Create PDF reports with trends, charts, and summaries.
+
+-  **Alert System**  
+  Configurable Slack/Email alerts for new papers matching filters.
+
+-  **Citation Metrics**  
+  Integrates citation counts via Semantic Scholar API.
+
+---
+
+##  Getting Started
+
+### 1️ Prerequisites
+
+- Python **3.10+**
+- PostgreSQL server running
+
+---
+
+### 2️ Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 3️ Environment Setup
+
+Create a `.env` file:
+
+```
+DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/research_lens
+```
+
+---
+
+### 4️ Initialize Database & Run First Scrape
+
+```bash
+cd src
+python main.py init
+```
+
+This fetches and indexes the most recent research papers.
+
+---
+
+### 5️ Run the API Server
+
+```bash
+# From inside src/
+uvicorn api:app --reload --port 8000
+```
+
+API available at:
+
+```
+http://localhost:8000
+```
+
+Interactive docs:
+
+```
+http://localhost:8000/docs
+```
+
+---
+
+## Key API Endpoints
+
+| Method | Endpoint                             | Description |
+|--------|--------------------------------------|-------------|
+| GET    | `/api/dashboard/stats`               | Returns global paper statistics and insights |
+| GET    | `/api/papers`                        | Search, filter, and paginate papers |
+| GET    | `/api/analytics/keyword-trends`      | Keyword velocity and trend history |
+| POST   | `/api/papers/{id}/download`          | Downloads and stores PDF locally |
+
+---
