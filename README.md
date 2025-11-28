@@ -1,4 +1,4 @@
-# Research Lens — Backend API
+# Research Lens Backend API
 
 The backend engine powering **Research Lens**, a platform built to scrape, analyze, and index research papers from sources like **arXiv**. Using NLP and automation, the system extracts metadata, tracks trends, and exposes insights through a high-performance REST API.
 
